@@ -18,7 +18,7 @@ class ChooseRoleScreen extends StatelessWidget {
                   Padding(padding:EdgeInsets.all(20),
                       child: const SizedBox(height: 30)),
               Image.asset(
-                'assets/images/home_image.png',
+                'assets/images/one_roof_logo.png',
                 height: 40,
               ),
 
@@ -40,7 +40,7 @@ class ChooseRoleScreen extends StatelessWidget {
               /// ILLUSTRATION
               Center(
                 child: Image.asset(
-                  'assets/looking.png', // illustration yahan rakho
+                  'assets/images/choose_role.png', // illustration yahan rakho
                   height: 200,
                 ),
               ),
@@ -73,7 +73,10 @@ class ChooseRoleScreen extends StatelessWidget {
                 icon: Icons.search,
                 title: "I'm Looking for Property",
                 subtitle: "Find Plot",
-                onTap: () {},
+                onTap: () {
+
+                    Navigator.pushNamed(context, '/ownerDashboard');
+                  },
               ),
 
               const SizedBox(height: 20),
@@ -89,7 +92,9 @@ class ChooseRoleScreen extends StatelessWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(14),
-                  onTap: () {},
+                  onTap: () {
+                      Navigator.pushNamed(context, '/listingsDashboard');
+                    },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children:  [

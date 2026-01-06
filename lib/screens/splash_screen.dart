@@ -1,34 +1,57 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/onboarding');
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _scaleAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack,
+    );
+
+    _controller.forward();
+
+    /// Splash ke baad next screen
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, '/welcome');
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,   //
+      backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/images/home_image.png',
-              width: 220,
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'One Roof',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFFFF9C8B),
-                letterSpacing: 1,
-              ),
-            ),
-          ],
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: Image.asset(
+            'assets/images/one_roof_logo.png',
+            width: MediaQuery.of(context).size.width * 0.55,
+          ),
         ),
       ),
     );

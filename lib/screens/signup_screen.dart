@@ -8,8 +8,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+  bool agree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,103 +16,151 @@ class _SignUpScreenState extends State<SignUpScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-
+          padding: const EdgeInsets.all(16), // ✅ 16px padding
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
 
-              /// LOGO + APP NAME
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    'assets/images/home_image.png',
-                    height: 40,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'One Roof',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFFF28B82),
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 24),
+
+              /// TOP ILLUSTRATION
+              Image.asset(
+                'assets/images/signup_top.png',
+                height: 140,
+                fit: BoxFit.contain,
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 16),
 
-              /// SIGN UP TITLE
+              /// TITLE
               const Text(
-                'Sign Up',
+                "Get Started",
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 6),
 
-              _inputField('Full Name'),
-              _inputField('Email Address'),
-              _inputField('Mobile Number'),
-
-              _passwordField(
-                'Password',
-                _obscurePassword,
-                    () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
-              ),
-
-              _passwordField(
-                'Confirm Password',
-                _obscureConfirmPassword,
-                    () {
-                  setState(() {
-                    _obscureConfirmPassword = !_obscureConfirmPassword;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 25),
-
-              /// SIGN UP BUTTON
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFFFB199),
-                      Color(0xFFFF8C94),
-                    ],
-                  ),
+              const Text(
+                "Let’s create account",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
                 ),
+              ),
+
+              const SizedBox(height: 32),
+
+              /// FULL NAME
+              customTextField("Full Name"),
+
+              const SizedBox(height: 16),
+
+              /// EMAIL
+              customTextField("Email Address"),
+
+              const SizedBox(height: 16),
+
+              /// MOBILE
+              customTextField("Mobile number", keyboard: TextInputType.phone),
+
+              const SizedBox(height: 16),
+
+              /// PASSWORD
+              customTextField(
+                "Create password",
+                obscure: true,
+              ),
+
+              const SizedBox(height: 12),
+
+              /// TERMS CHECKBOX
+              Row(
+                children: [
+                  Checkbox(
+                    value: agree,
+                    activeColor: const Color(0xFFFF6F61),
+                    onChanged: (value) {
+                      setState(() => agree = value!);
+                    },
+                  ),
+                  Expanded(
+                    child: RichText(
+                      text: const TextSpan(
+                        text: "Agree to our ",
+                        style: TextStyle(color: Colors.black54),
+                        children: [
+                          TextSpan(
+                            text: "Terms and Conditions.",
+                            style: TextStyle(
+                              color: Color(0xFFFF6F61),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              /// SIGN IN BUTTON
+              SizedBox(
+                width: double.infinity,
+                height: 54,
                 child: ElevatedButton(
                   onPressed: () {
+                    if (!agree) return;
+                    // signup logic
                     Navigator.pushReplacementNamed(context, '/choose_role');
+
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
+                    backgroundColor: const Color(0xFFFFB3A7),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                     ),
+                    elevation: 0,
                   ),
                   child: const Text(
-                    'Sign Up',
+                    "Sign In",
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
                       color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              const Text("or"),
+
+              const SizedBox(height: 16),
+
+              /// GOOGLE BUTTON
+              OutlinedButton.icon(
+                onPressed: () {
+                  // google auth
+                },
+                icon: Image.asset(
+                  'assets/images/google.png',
+                  height: 22,
+                ),
+                label: const Text(
+                  "Continue with Google",
+                  style: TextStyle(fontSize: 16),
+                ),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 54),
+                  side: BorderSide(color: Colors.grey.shade300),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
               ),
@@ -123,53 +170,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               /// LOGIN TEXT
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:  [
-                  Text('Already have an account ? '),
-                  InkWell(
-                    onTap: (){
-                      Navigator.pushNamed(context, '/signin');
+                children: [
+                  const Text("Already have account ? "),
+                  GestureDetector(
+                    onTap: () {
+                      // navigate to login
+                      Navigator.pushReplacementNamed(context, '/login');
+
                     },
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Color(0xFFFF8C94),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 25),
-
-              /// GOOGLE SIGN IN
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
-                      height: 24,
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Continue with Google',
+                    child: const Text(
+                      "Login",
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        color: Color(0xFFFF6F61),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
-
-              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -177,43 +195,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  /// NORMAL INPUT FIELD
-  Widget _inputField(String hint) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: hint,
-          contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+  /// REUSABLE TEXTFIELD
+  Widget customTextField(
+      String hint, {
+        bool obscure = false,
+        TextInputType keyboard = TextInputType.text,
+      }) {
+    return TextField(
+      obscureText: obscure,
+      keyboardType: keyboard,
+      decoration: InputDecoration(
+        hintText: hint,
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFFFC1B6)),
         ),
-      ),
-    );
-  }
-
-  /// PASSWORD FIELD
-  Widget _passwordField(
-      String hint, bool obscure, VoidCallback toggle) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: TextField(
-        obscureText: obscure,
-        decoration: InputDecoration(
-          hintText: hint,
-          contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          suffixIcon: IconButton(
-            icon: Icon(
-              obscure ? Icons.visibility_off : Icons.visibility,
-            ),
-            onPressed: toggle,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFFF6F61)),
         ),
       ),
     );
