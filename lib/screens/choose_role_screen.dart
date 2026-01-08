@@ -63,7 +63,9 @@ class ChooseRoleScreen extends StatelessWidget {
                 icon: Icons.search,
                 title: "I'm Looking for Stay",
                 subtitle: "Find a PG, Hotel Room, Guest Room",
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
               ),
 
               const SizedBox(height: 15),

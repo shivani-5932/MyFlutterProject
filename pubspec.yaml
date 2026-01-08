@@ -60,6 +60,9 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/pg_room_images/
+    - assets/images/hotel_room_images/
+    - assets/images/guest_room_images/guest1.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
