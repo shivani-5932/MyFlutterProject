@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_roof/screens/home_screen.dart';
 import 'package:one_roof/screens/choose_role_screen.dart';
 import 'package:one_roof/screens/group_room_details_screen.dart';
 import 'package:one_roof/screens/onboarding_screen.dart';
@@ -17,7 +18,7 @@ import 'package:one_roof/screens/verify_yourself_screen.dart';
 import 'package:one_roof/screens/property_documents_screen.dart';
 import 'package:one_roof/screens/hotel_room_details_screen.dart';
 import 'package:one_roof/screens/guest_room_details_screen.dart';
-import 'package:one_roof/screens/owner_dashboard_screen.dart';
+
 import 'package:one_roof/screens/owner_dashboard_with_listings_screen.dart';
 import 'package:one_roof/screens/select_property_screen.dart';
 import 'package:one_roof/screens/document_verification.dart';
@@ -28,7 +29,6 @@ import 'package:one_roof/screens/private_room_details_screen.dart';
 import 'package:one_roof/screens/otp_verification_screen.dart';
 import 'package:one_roof/screens/forgot_password_screen.dart';
 import 'package:one_roof/screens/reset_password_success_screen.dart';
-
 
 // import 'splash_screen.dart';
 // import 'onboarding_screen.dart';
@@ -50,6 +50,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => SplashScreen(),
+        '/home': (context) => const HomeScreen(),
+
         '/onboarding': (context) => OnboardingScreen(),
         '/welcome': (context) => WelcomeScreen(),
         '/signup': (context) => SignUpScreen(),
@@ -62,11 +64,11 @@ class MyApp extends StatelessWidget {
         '/listingsDashboard': (context) => const OwnerDashboardWithListings(),
         '/selectProperty': (context) => const SelectPropertyScreen(),
         '/verification': (context) => const DocumentVerification(),
+
         /// PG MAIN SCREEN
         '/pgDetails': (context) => const PgDetailsMainScreen(),
         '/guestDetails': (context) => const GuestRoomDetailsScreen(),
         '/hotelDetails': (context) => const HotelRoomDetailsScreen(),
-
 
         /// ROOM DETAILS
         '/sharingRoom': (context) => const SharingRoomScreen(),
@@ -76,8 +78,6 @@ class MyApp extends StatelessWidget {
         /// VERIFICATION
         '/verifyYourself': (context) => const VerifyYourselfScreen(),
         '/propertyDocuments': (context) => const PropertyDocumentsScreen(),
-
-
       },
     );
   }
