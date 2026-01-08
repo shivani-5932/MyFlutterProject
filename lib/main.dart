@@ -28,8 +28,6 @@ import 'package:one_roof/screens/private_room_details_screen.dart';
 import 'package:one_roof/screens/otp_verification_screen.dart';
 import 'package:one_roof/screens/forgot_password_screen.dart';
 import 'package:one_roof/screens/reset_password_success_screen.dart';
-import 'package:one_roof/screens/home_screen.dart';
-import 'package:one_roof/screens/favorites_screen.dart';
 
 
 // import 'splash_screen.dart';
@@ -78,8 +76,6 @@ class MyApp extends StatelessWidget {
         /// VERIFICATION
         '/verifyYourself': (context) => const VerifyYourselfScreen(),
         '/propertyDocuments': (context) => const PropertyDocumentsScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/favorites': (context) => const FavouritesScreen(),
 
 
       },

@@ -15,24 +15,22 @@ class ChooseRoleScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Padding(padding:EdgeInsets.all(20),
-                      child: const SizedBox(height: 30)),
-              Image.asset(
-                'assets/images/one_roof_logo.png',
-                height: 40,
-              ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: const SizedBox(height: 30),
+                  ),
+                  Image.asset('assets/images/one_roof_logo.png', height: 40),
 
-
-              /// APP NAME
-              const Text(
-                'One Roof',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFFF28B82),
-                ),
-              ),
-          ],
+                  /// APP NAME
+                  const Text(
+                    'One Roof',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFF28B82),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 30),
@@ -50,10 +48,7 @@ class ChooseRoleScreen extends StatelessWidget {
               /// TITLE
               const Text(
                 'What are you looking for ?',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 25),
@@ -76,9 +71,8 @@ class ChooseRoleScreen extends StatelessWidget {
                 title: "I'm Looking for Property",
                 subtitle: "Find Plot",
                 onTap: () {
-
-                    Navigator.pushNamed(context, '/ownerDashboard');
-                  },
+                  Navigator.pushNamed(context, '/ownerDashboard');
+                },
               ),
 
               const SizedBox(height: 20),
@@ -95,19 +89,20 @@ class ChooseRoleScreen extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(14),
                   onTap: () {
-                      Navigator.pushNamed(context, '/listingsDashboard');
-                    },
+                    Navigator.pushNamed(context, '/listingsDashboard');
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children:  [
+                    children: [
                       Container(
-                          height: 45,
-                          width: 45,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFE5E0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(Icons.add, color: Colors.white)),
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFE5E0),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(Icons.add, color: Colors.white),
+                      ),
                       SizedBox(width: 10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -183,10 +178,7 @@ class ChooseRoleScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                 ],
               ),
