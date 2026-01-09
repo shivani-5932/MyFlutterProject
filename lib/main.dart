@@ -29,9 +29,11 @@ import 'package:one_roof/screens/otp_verification_screen.dart';
 import 'package:one_roof/screens/forgot_password_screen.dart';
 import 'package:one_roof/screens/reset_password_success_screen.dart';
 import 'package:one_roof/user/home/user_home_screen.dart';
-import 'package:one_roof/user/home/pg_tab.dart';
-import 'package:one_roof/user/home/hotel_tab.dart';
-import 'package:one_roof/user/home/guest_tab.dart';
+import 'package:one_roof/user/favorites/favorites_screen.dart';
+import 'package:one_roof/user/bookings/booking_screen.dart';
+import 'package:one_roof/user/home/tabs/pg_tab.dart';
+import 'package:one_roof/user/home/tabs/hotel_tab.dart';
+import 'package:one_roof/user/home/tabs/guest_tab.dart';
 
 
 // import 'splash_screen.dart';
@@ -70,7 +72,9 @@ class MyApp extends StatelessWidget {
         '/pgDetails': (context) => const PgDetailsMainScreen(),
         '/guestDetails': (context) => const GuestRoomDetailsScreen(),
         '/hotelDetails': (context) => const HotelRoomDetailsScreen(),
-
+        '/home': (context) => const UserHomeScreen(),
+        '/fav': (context) => const FavouritesScreen(),
+        '/book': (context) => const BookingScreen(),
 
         /// ROOM DETAILS
         '/sharingRoom': (context) => const SharingRoomScreen(),
