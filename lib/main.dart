@@ -28,6 +28,10 @@ import 'package:one_roof/screens/private_room_details_screen.dart';
 import 'package:one_roof/screens/otp_verification_screen.dart';
 import 'package:one_roof/screens/forgot_password_screen.dart';
 import 'package:one_roof/screens/reset_password_success_screen.dart';
+import 'package:one_roof/user/home/user_home_screen.dart';
+import 'package:one_roof/user/home/pg_tab.dart';
+import 'package:one_roof/user/home/hotel_tab.dart';
+import 'package:one_roof/user/home/guest_tab.dart';
 
 
 // import 'splash_screen.dart';
