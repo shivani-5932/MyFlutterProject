@@ -34,6 +34,11 @@ import 'package:one_roof/user/bookings/booking_screen.dart';
 import 'package:one_roof/user/home/tabs/pg_tab.dart';
 import 'package:one_roof/user/home/tabs/hotel_tab.dart';
 import 'package:one_roof/user/home/tabs/guest_tab.dart';
+import 'package:one_roof/user/profile/profile_screen.dart';
+import 'package:one_roof/user/profile/edit_profile_screen.dart';
+import 'package:one_roof/user/maps/map_start_screen.dart';
+import 'package:one_roof/user/chat/chat_page/chat_screen.dart';
+import 'package:one_roof/user/chat/chat_list_page/chat_list_screen.dart';
 
 
 // import 'splash_screen.dart';
@@ -75,6 +80,11 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const UserHomeScreen(),
         '/fav': (context) => const FavouritesScreen(),
         '/book': (context) => const BookingScreen(),
+        '/map': (context) => const MapStartScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/editProfile': (context) => const EditProfileScreen(),
+        '/msg': (context) => const ChatScreen(),
+        '/chatList': (context) => const ChatListScreen(),
 
         /// ROOM DETAILS
         '/sharingRoom': (context) => const SharingRoomScreen(),

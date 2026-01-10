@@ -88,12 +88,14 @@ class BottomNav extends StatelessWidget {
       items:  [
         BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.home), onTap: (){Navigator.pushReplacementNamed(context, '/home');},),
             label: "Home"),
-        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.map), onTap: (){},),
+        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.map), onTap: (){Navigator.pushReplacementNamed(context, '/map');},),
             label: "Map"),
         BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.favorite_border), onTap: (){Navigator.pushReplacementNamed(context, '/fav');},),
             label: "Favourite"),
-        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.receipt_long), onTap: (){Navigator.pushReplacementNamed(context, '/book');},), label: "My Booking"),
-        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.person_outline), onTap: (){},), label: "Profile"),
+        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.receipt_long), onTap: (){Navigator.pushReplacementNamed(context, '/book');},),
+            label: "My Booking"),
+        BottomNavigationBarItem(icon: InkWell(child: Icon(Icons.person_outline), onTap: (){Navigator.pushReplacementNamed(context, '/profile');},),
+            label: "Profile"),
       ],
     );
   }
