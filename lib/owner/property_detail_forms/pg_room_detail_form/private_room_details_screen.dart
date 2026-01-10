@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:one_roof/screens/room_common_widgets.dart';
+import 'package:one_roof/owner/property_detail_forms/pg_room_detail_form/room_common_widgets.dart';
 
 class PrivateRoomScreen extends StatelessWidget {
   const PrivateRoomScreen({super.key});
