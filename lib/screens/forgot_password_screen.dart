@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -14,6 +16,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void dispose() {
     emailController.dispose();
     super.dispose();
+  }
+
+  // ✅ RESET PASSWORD LOGIC (BACKEND)
+  Future<void> resetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: emailController.text.trim(),
+      );
+
+      Navigator.pushReplacementNamed(context, '/resetPassword');
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar("Reset Failed", e.message ?? e.code);
+    }
   }
 
   @override
@@ -37,21 +52,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 12),
 
-              // /// ILLUSTRATION
-              // Image.asset(
-              //   // 'assets/images/forgot_password.png',
-              //   // height: 160,
-              // ),
-
               const SizedBox(height: 28),
 
               /// TITLE
               const Text(
                 "Forgot Password ?",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 8),
@@ -59,10 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               const Text(
                 "Enter your registered email address.\nWe’ll send you a reset link.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.black54, fontSize: 14),
               ),
 
               const SizedBox(height: 32),
@@ -76,14 +79,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
               const SizedBox(height: 32),
 
-              /// SEND BUTTON
+              /// SEND BUTTON (ONLY LOGIC CHANGED)
               SizedBox(
                 width: double.infinity,
                 height: 54,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // send reset email logic
-                  },
+                  onPressed: resetPassword, // ✅ THIS LINE
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFB3A7),
                     shape: RoundedRectangleBorder(
@@ -139,20 +140,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hint,
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFFFFC1B6),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFFFC1B6)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFFFF6F61),
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: Color(0xFFFF6F61), width: 2),
         ),
       ),
     );

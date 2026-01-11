@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:one_roof/screens/services/auth_service.dart';
+import 'package:one_roof/screens/services/google_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -7,8 +12,16 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
+final AuthService _authService = AuthService();
+
 class _SignUpScreenState extends State<SignUpScreen> {
   bool agree = false;
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +33,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               const SizedBox(height: 24),
 
               /// TOP ILLUSTRATION
@@ -35,36 +47,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               /// TITLE
               const Text(
                 "Get Started",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 6),
 
               const Text(
                 "Let’s create account",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
 
               const SizedBox(height: 32),
 
               /// FULL NAME
-              customTextField("Full Name"),
+              customTextField("Full Name", controller: nameController),
 
               const SizedBox(height: 16),
 
               /// EMAIL
-              customTextField("Email Address"),
+              customTextField("Email Address", controller: emailController),
 
               const SizedBox(height: 16),
 
               /// MOBILE
-              customTextField("Mobile number", keyboard: TextInputType.phone),
+              customTextField(
+                "Mobile number",
+                keyboard: TextInputType.phone,
+                controller: phoneController,
+              ),
 
               const SizedBox(height: 16),
 
@@ -72,6 +82,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               customTextField(
                 "Create password",
                 obscure: true,
+                controller: passwordController,
+              ),
+
+              const SizedBox(height: 12),
+
+              /// CONFIRM PASSWORD
+              customTextField(
+                "Confirm password",
+                obscure: true,
+                controller: confirmPasswordController,
               ),
 
               const SizedBox(height: 12),
@@ -102,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
 
@@ -115,9 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (!agree) return;
-                    // signup logic
-                    Navigator.pushReplacementNamed(context, '/choose_role');
-
+                    signupUser(); // ✅ backend connected
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFB3A7),
@@ -127,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     elevation: 0,
                   ),
                   child: const Text(
-                    "Sign In",
+                    "Sign Up",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -144,27 +162,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 16),
 
               /// GOOGLE BUTTON
-              OutlinedButton.icon(
-                onPressed: () {
-                  // google auth
-                },
-                icon: Image.asset(
-                  'assets/images/google.png',
-                  height: 22,
-                ),
-                label: const Text(
-                  "Continue with Google",
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 54),
-                  side: BorderSide(color: Colors.grey.shade300),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              SizedBox(
+                width: double.infinity,
+                height: 54,
+                child: OutlinedButton.icon(
+                  onPressed: () async {
+                    final user = await GoogleAuthService.signInWithGoogle();
+                    if (user != null) {
+                      Navigator.pushReplacementNamed(context, '/choose_role');
+                    }
+                  },
+                  icon: Image.asset('assets/images/google.png', height: 22),
+                  label: const Text(
+                    "Continue with Google",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 54),
+                    side: BorderSide(color: Colors.grey.shade300),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               /// LOGIN TEXT
@@ -176,7 +197,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onTap: () {
                       // navigate to login
                       Navigator.pushReplacementNamed(context, '/login');
-
                     },
                     child: const Text(
                       "Login",
@@ -185,7 +205,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
@@ -195,19 +215,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Future<void> signupUser() async {
+    if (!agree) return;
+
+    if (passwordController.text.trim().length < 6) {
+      Get.snackbar("Weak Password", "Password must be at least 6 characters");
+      return;
+    }
+
+    if (passwordController.text.trim() !=
+        confirmPasswordController.text.trim()) {
+      Get.snackbar("Error", "Passwords do not match");
+      return;
+    }
+
+    try {
+      await _authService.signup(
+        email: emailController.text,
+        password: passwordController.text,
+        phone: phoneController.text,
+      );
+
+      Navigator.pushReplacementNamed(context, '/choose_role');
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar("Signup Failed", e.message ?? e.code);
+    }
+  }
+
   /// REUSABLE TEXTFIELD
   Widget customTextField(
-      String hint, {
-        bool obscure = false,
-        TextInputType keyboard = TextInputType.text,
-      }) {
+    String hint, {
+    bool obscure = false,
+    TextInputType keyboard = TextInputType.text,
+    required TextEditingController controller,
+  }) {
     return TextField(
+      controller: controller,
       obscureText: obscure,
       keyboardType: keyboard,
       decoration: InputDecoration(
         hintText: hint,
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 18,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: Color(0xFFFFC1B6)),

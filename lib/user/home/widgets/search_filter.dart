@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SearchFilterBar extends StatelessWidget {
-  const SearchFilterBar({super.key});
+  final ValueChanged<String> onChanged;
+
+  const SearchFilterBar({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +17,15 @@ class SearchFilterBar extends StatelessWidget {
               height: 52,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: const Color(0xFFFF6B6B), // exact red tone
-                  width: 1,
-                ),
+                border: Border.all(color: const Color(0xFFFF6B6B), width: 1),
               ),
               child: TextField(
                 cursorColor: const Color(0xFFFF6B6B),
+                onChanged: onChanged, // ✅ THIS IS THE KEY LINE
                 decoration: const InputDecoration(
                   hintText: 'Search "PG", "Hotels", "Guest Rooms"',
-                  hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Color(0xFFFF6B6B),
-                  ),
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                  prefixIcon: Icon(Icons.search, color: Color(0xFFFF6B6B)),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -40,9 +34,6 @@ class SearchFilterBar extends StatelessWidget {
                     horizontal: 0,
                   ),
                 ),
-                onTap: () {
-                  // sirf UI ke liye, backend baad mein
-                },
               ),
             ),
           ),
@@ -55,18 +46,12 @@ class SearchFilterBar extends StatelessWidget {
             width: 52,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xFFFF6B6B),
-                width: 1,
-              ),
+              border: Border.all(color: const Color(0xFFFF6B6B), width: 1),
             ),
             child: IconButton(
-              icon: const Icon(
-                Icons.tune,
-                color: Color(0xFFFF6B6B),
-              ),
+              icon: const Icon(Icons.tune, color: Color(0xFFFF6B6B)),
               onPressed: () {
-                // TODO: open filter bottom sheet later
+                // later: open filter sheet
               },
             ),
           ),

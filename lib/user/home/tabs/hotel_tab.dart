@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HotelTab extends StatefulWidget {
-  const HotelTab({super.key});
+  final String searchQuery;
+  const HotelTab({super.key, required this.searchQuery});
 
   @override
   State<HotelTab> createState() => _HotelTabState();
@@ -43,11 +44,19 @@ class _HotelTabState extends State<HotelTab> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredList = guestList.where((guest) {
+      return guest['name'].toLowerCase().contains(widget.searchQuery);
+    }).toList();
+
+    if (filteredList.isEmpty) {
+      return const Center(child: Text("No results found"));
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      itemCount: guestList.length,
+      itemCount: filteredList.length,
       itemBuilder: (context, index) {
-        final guest = guestList[index];
+        final guest = filteredList[index];
 
         return GuestCard(
           name: guest['name'],
@@ -88,20 +97,18 @@ class GuestCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 6),
-        ],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           /// IMAGE STACK
           Stack(
             children: [
               ClipRRect(
-                borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(18)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(18),
+                ),
                 child: Image.asset(
                   image,
                   height: 170,
@@ -115,8 +122,10 @@ class GuestCard extends StatelessWidget {
                 top: 12,
                 right: 12,
                 child: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF6B6B),
                     borderRadius: BorderRadius.circular(20),
@@ -161,7 +170,9 @@ class GuestCard extends StatelessWidget {
                 Text(
                   name,
                   style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 const Text(
@@ -190,8 +201,7 @@ class GuestCard extends StatelessWidget {
                   height: 42,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      side:
-                      const BorderSide(color: Color(0xFFFF6B6B)),
+                      side: const BorderSide(color: Color(0xFFFF6B6B)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
@@ -208,7 +218,7 @@ class GuestCard extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

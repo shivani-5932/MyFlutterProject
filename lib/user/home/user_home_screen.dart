@@ -16,11 +16,12 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
   int selectedCategory = 0; // 0=PG, 1=Hotel, 2=Guest
+  String searchQuery = ''; // ✅ ADD THIS
 
   Widget getSelectedTab() {
-    if (selectedCategory == 0) return const PGTab();
-    if (selectedCategory == 1) return const HotelTab();
-    return const GuestTab();
+    if (selectedCategory == 0) return PGTab(searchQuery: searchQuery);
+    if (selectedCategory == 1) return HotelTab(searchQuery: searchQuery);
+    return GuestTab(searchQuery: searchQuery);
   }
 
   @override
@@ -34,12 +35,17 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-
             /// 🔝 TOP BAR
             const TopBar(),
 
             /// 🔍 SEARCH + FILTER
-            const SearchFilterBar(),
+            SearchFilterBar(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+            ),
 
             /// 🏠 CATEGORY
             CategorySection(
@@ -52,9 +58,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             ),
 
             /// 📃 CONTENT (PG / HOTEL / GUEST)
-            Expanded(
-              child: getSelectedTab(),
-            ),
+            Expanded(child: getSelectedTab()),
           ],
         ),
       ),

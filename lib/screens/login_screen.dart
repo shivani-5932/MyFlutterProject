@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+import 'services/google_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,30 +46,21 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 8),
 
               /// TOP ILLUSTRATION
-              Image.asset(
-                'assets/images/signup_top.png',
-                height: 140,
-              ),
+              Image.asset('assets/images/signup_top.png', height: 140),
 
               const SizedBox(height: 24),
 
               /// TITLE
               const Text(
                 "Welcome Back !",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 6),
 
               const Text(
                 "Sign in to access your account",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.black54, fontSize: 14),
               ),
 
               const SizedBox(height: 32),
@@ -105,8 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                     onTap: () {
                       // forgot password
-                      Navigator.pushReplacementNamed(context, '/forgotPassword');
-
+                      Navigator.pushReplacementNamed(
+                        context,
+                        '/forgotPassword',
+                      );
                     },
                     child: const Text(
                       "Forgot password ?",
@@ -126,10 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 54,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // login logic
-                    Navigator.pushReplacementNamed(context, '/choose_role');
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
 
+                      Navigator.pushReplacementNamed(context, '/choose_role');
+                    } on FirebaseAuthException catch (e) {
+                      Get.snackbar("Login Error", e.message ?? e.code);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFB3A7),
@@ -160,19 +164,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 54,
                 child: OutlinedButton.icon(
-                  onPressed: () {
-                    // google sign in
+                  onPressed: () async {
+                    final user = await GoogleAuthService.signInWithGoogle();
+                    if (user != null) {
+                      Navigator.pushReplacementNamed(context, '/choose_role');
+                    }
                   },
-                  icon: Image.asset(
-                    'assets/images/google.png',
-                    height: 22,
-                  ),
+
+                  icon: Image.asset('assets/images/google.png', height: 22),
                   label: const Text(
                     "Continue with Google",
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.black87, fontSize: 16),
                   ),
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -194,7 +196,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () {
                       // navigate to signup
                       Navigator.pushReplacementNamed(context, '/signup');
-
                     },
                     child: const Text(
                       "Sign up",
@@ -228,20 +229,17 @@ class _LoginScreenState extends State<LoginScreen> {
         hintText: hint,
         filled: true,
         fillColor: Colors.white,
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFFFFC1B6),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFFFC1B6)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(
-            color: Color(0xFFFF6F61),
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: Color(0xFFFF6F61), width: 2),
         ),
       ),
     );
