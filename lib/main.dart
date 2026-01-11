@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:one_roof/screens/choose_role_screen.dart';
-import 'package:one_roof/screens/group_room_details_screen.dart';
+import 'package:one_roof/owner/property_detail_forms/pg_room_detail_form/group_room_details_screen.dart';
 import 'package:one_roof/screens/onboarding_screen.dart';
-import 'package:one_roof/screens/owner_dashboard_screen.dart';
-import 'package:one_roof/screens/owner_dashboard_with_listings_screen.dart';
-import 'package:one_roof/screens/pg_details_main_screen.dart';
-import 'package:one_roof/screens/private_room_details_screen.dart';
-import 'package:one_roof/screens/select_property_screen.dart';
-import 'package:one_roof/screens/sharing_room_details_screen.dart';
+import 'package:one_roof/owner/owner_dashboard_screen.dart';
+import 'package:one_roof/owner/owner_dashboard_with_listings_screen.dart';
+import 'package:one_roof/owner/property_detail_forms/pg_details_main_screen.dart';
+import 'package:one_roof/owner/property_detail_forms/pg_room_detail_form/private_room_details_screen.dart';
+import 'package:one_roof/owner/select_property_screen.dart';
+import 'package:one_roof/owner/property_detail_forms/pg_room_detail_form/sharing_room_details_screen.dart';
 import 'package:one_roof/screens/login_screen.dart';
 import 'package:one_roof/screens/signup_screen.dart';
 import 'package:one_roof/screens/splash_screen.dart';
-import 'package:one_roof/screens/document_verification.dart';
+import 'package:one_roof/owner/verification/document_verification.dart';
 import 'package:one_roof/screens/welcome_screen.dart';
-import 'package:one_roof/screens/verify_yourself_screen.dart';
+import 'package:one_roof/lib/screens/verify_yourself_screen.dart';
 import 'package:one_roof/screens/property_documents_screen.dart';
-import 'package:one_roof/screens/hotel_room_details_screen.dart';
+import 'package:one_roof/lib/owner/property_details_form/hotel_room_details_screen.dart';
 import 'package:one_roof/screens/guest_room_details_screen.dart';
-/*import 'package:one_roof/screens/owner_dashboard_screen.dart';
+import 'package:one_roof/screens/owner_dashboard_screen.dart';
 import 'package:one_roof/screens/owner_dashboard_with_listings_screen.dart';
 import 'package:one_roof/screens/select_property_screen.dart';
 import 'package:one_roof/screens/document_verification.dart';
 import 'package:one_roof/screens/pg_details_main_screen.dart';
 import 'package:one_roof/screens/sharing_room_details_screen.dart';
 import 'package:one_roof/screens/group_room_details_screen.dart';
-import 'package:one_roof/screens/private_room_details_screen.dart';*/
+import 'package:one_roof/screens/private_room_details_screen.dart';
 import 'package:one_roof/screens/otp_verification_screen.dart';
 import 'package:one_roof/screens/forgot_password_screen.dart';
 import 'package:one_roof/screens/reset_password_success_screen.dart';
@@ -34,8 +34,6 @@ import 'package:one_roof/user/bookings/booking_screen.dart';
 import 'package:one_roof/user/home/tabs/pg_tab.dart';
 import 'package:one_roof/user/home/tabs/hotel_tab.dart';
 import 'package:one_roof/user/home/tabs/guest_tab.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 // import 'splash_screen.dart';
 // import 'onboarding_screen.dart';
@@ -79,6 +77,11 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const UserHomeScreen(),
         '/fav': (context) => const FavouritesScreen(),
         '/book': (context) => const BookingScreen(),
+        '/map': (context) => const MapStartScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/editProfile': (context) => const EditProfileScreen(),
+        '/msg': (context) => const ChatScreen(),
+        '/chatList': (context) => const ChatListScreen(),
 
         /// ROOM DETAILS
         '/sharingRoom': (context) => const SharingRoomScreen(),

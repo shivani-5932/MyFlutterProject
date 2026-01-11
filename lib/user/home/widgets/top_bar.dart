@@ -84,6 +84,7 @@ class _TopBarState extends State<TopBar> {
             icon: Icons.chat_bubble_outline,
             onTap: () {
               // TODO: Chat screen
+              Navigator.pushReplacementNamed(context, '/chatList');
               debugPrint("Chat clicked");
             },
           ),
