@@ -45,7 +45,7 @@ dev_dependencies:
   cloud_firestore: ^6.1.1
   firebase_storage: ^13.0.4
   file_picker: ^6.1.1
-
+  flutter_slidable: ^3.0.1
   # Image picker
   image_picker: ^1.1.2
 

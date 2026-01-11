@@ -7,11 +7,7 @@ class ChatTile extends StatelessWidget {
   final Map<String, dynamic> chat;
   final VoidCallback onDelete;
 
-  const ChatTile({
-    super.key,
-    required this.chat,
-    required this.onDelete,
-  });
+  const ChatTile({super.key, required this.chat, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
